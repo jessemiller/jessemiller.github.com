@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-_site
-=======
 .bundle
 .DS_Store
 .sass-cache
@@ -11,4 +8,3 @@ public
 source/_stash
 source/stylesheets/screen.css
 vendor
->>>>>>> 605290c632148ad46b44995eaa76c2ed3192daa4
