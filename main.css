@@ -3,6 +3,67 @@ body {
   font-size: 19px;
   line-height: 28px;
   background-color: #ECECEC;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+body.dark h1 {
+  color: #ffffff;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.theme-switch {
+  display: none;
+}
+
+.theme-label {
+  display: block;
+  width: 50px;
+  height: 26px;
+  background-color: #ccc;
+  border-radius: 13px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.theme-label:hover {
+  background-color: #bbb;
+}
+
+.theme-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.theme-switch:checked + .theme-label {
+  background-color: #666;
+}
+
+.theme-switch:checked + .theme-label:hover {
+  background-color: #555;
+}
+
+.theme-switch:checked + .theme-label .theme-slider {
+  transform: translateX(24px);
 }
 
 h1 {
@@ -34,6 +95,10 @@ h1 {
 
 .social a {
   margin-right: 14px;
+}
+
+body.dark .social img {
+  filter: invert(1) brightness(0.9);
 }
 
 .right {

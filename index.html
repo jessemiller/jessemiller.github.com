@@ -7,6 +7,12 @@
   <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
+  <div class="theme-toggle">
+    <input type="checkbox" id="theme-switch" class="theme-switch">
+    <label for="theme-switch" class="theme-label">
+      <span class="theme-slider"></span>
+    </label>
+  </div>
   <div class="wrapper">
     <div class="left vertical-align">
       <div class="text">
@@ -22,5 +28,28 @@
     <div class="right">
     </div>
   </div>
+  
+  <script>
+    const themeSwitch = document.getElementById('theme-switch');
+    const body = document.body;
+
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+      body.classList.add(currentTheme);
+      if (currentTheme === 'dark') {
+        themeSwitch.checked = true;
+      }
+    }
+
+    themeSwitch.addEventListener('change', function() {
+      if (this.checked) {
+        body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
 </body>
 </html>
