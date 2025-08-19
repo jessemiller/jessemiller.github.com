@@ -1,56 +1,123 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Jesse Miller</title>
-  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:300' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="normalize.css">
-  <link rel="stylesheet" type="text/css" href="main.css">
-</head>
-<body>
-  <div class="theme-toggle">
-    <input type="checkbox" id="theme-switch" class="theme-switch">
-    <label for="theme-switch" class="theme-label">
-      <span class="theme-slider"></span>
-    </label>
-  </div>
-  <div class="wrapper">
-    <div class="left vertical-align">
-      <div class="text">
-        <h1>Jesse Miller</h1>
-        <p>Software developer turned entrepreneur and product guy. I want to build things that matter. I built Attachments.me and sold it to Yesware. Looking for my next adventure. Traveling, cooking, coffee and beer are all things that I love. Currently residing in San Francisco, California.</p>
-        <div class="social">
-          <a href="https://www.linkedin.com/in/jessejmiller"><img src="linkedin.svg"></a>
-          <a href="https://twitter.com/jesse_miller"><img src="twitter.svg"></a>
-          <a href="https://github.com/jessemiller"><img src="octocat.svg"></a>
-        </div>
-      </div>
-    </div>
-    <div class="right">
-    </div>
-  </div>
-  
-  <script>
-    const themeSwitch = document.getElementById('theme-switch');
-    const body = document.body;
-
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-      body.classList.add(currentTheme);
-      if (currentTheme === 'dark') {
-        themeSwitch.checked = true;
-      }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jesse Miller — Product & Growth</title>
+  <meta name="description" content="Product & growth leader building simple, lovable developer products." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <style>
+    /* Pure type-driven layout — no borders, no shadows, no gradients */
+    :root{
+      --bg:#0a0a0a; /* near-black */
+      --text:#e7e7ea; /* off-white */
+      --muted:#a1a1aa; /* secondary */
+      --link:#c7c7ff; /* soft indigo for links */
+      --measure: 72ch; /* readable line-length */
+      --space: 18px; /* base spacing */
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#ffffff; --text:#0b0b0c; --muted:#666; --link:#3737ff; }
     }
 
-    themeSwitch.addEventListener('change', function() {
-      if (this.checked) {
-        body.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        body.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      }
-    });
-  </script>
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font: 16px/1.7 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+
+    .wrap{ max-width: var(--measure); margin: 0 auto; padding: calc(var(--space)*2) 20px 96px; }
+
+    header{ position:sticky; top:0; padding: var(--space) 0; background: var(--bg); }
+    .brand{ font-weight:600; letter-spacing:.2px }
+    nav{ margin-top: 6px; }
+    nav a{ color: var(--muted); margin-right: 16px; text-decoration: none }
+    nav a:hover{ color: var(--text); text-decoration: underline; text-underline-offset: 2px }
+
+    /* Type scale */
+    h1{ font-size: clamp(34px, 6vw, 56px); line-height:1.05; letter-spacing: -0.02em; margin: 24px 0 8px }
+    .eyebrow{ font-size: 12px; text-transform: uppercase; letter-spacing: .18em; color: var(--muted) }
+    p.lead{ font-size: clamp(18px, 2.4vw, 21px); color: var(--muted); margin: 0 0 calc(var(--space)*1.2) }
+
+    h2{ font-size: clamp(22px, 3vw, 28px); letter-spacing:-.01em; margin: calc(var(--space)*2) 0 var(--space) }
+    p{ margin: 0 0 var(--space) }
+
+    /* Simple inline links */
+    a{ color: var(--link); text-decoration: none }
+    a:hover{ text-decoration: underline; text-underline-offset: 2px }
+
+    /* Layout sections (pure whitespace) */
+    section{ margin-top: calc(var(--space)*2) }
+
+    /* Timeline as clean list */
+    .timeline{ list-style: none; padding: 0; margin: var(--space) 0 }
+    .timeline li{ margin: 0 0 10px }
+    .timeline .role{ font-weight: 600 }
+    .timeline .meta{ color: var(--muted); font-size: 14px }
+
+    footer{ margin-top: calc(var(--space)*3); color: var(--muted); font-size: 14px }
+
+    /* Skip link for a11y */
+    .skip{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden }
+    .skip:focus{ position:static; width:auto; height:auto; padding:6px; background:transparent; outline: 1px dashed currentColor }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip">Skip to content</a>
+  <div class="wrap">
+    <header>
+      <div class="brand">Jesse Miller</div>
+    </header>
+
+    <main id="main">
+      <div class="eyebrow">Product & Growth Executive</div>
+      <h1>I build products people love.</h1>
+      <p class="lead">Currently building at Kong (Konnect & Insomnia); earlier Postman and Dropbox.</p>
+
+      <section id="work" aria-labelledby="work-h">
+        <h2 id="work-h">Selected roles</h2>
+        <ul class="timeline">
+          <li>
+            <div class="role">Kong — VP, Product Growth</div>
+            <div class="meta">2023–Current · PLG for Konnect & Insomnia</div>
+          </li>
+          <li>
+            <div class="role">Postman — Head of Growth</div>
+            <div class="meta">2020–2023 · Self‑serve motion & activation</div>
+          </li>
+          <li>
+            <div class="role">Dropbox — Director of Product, Head of Growth</div>
+            <div class="meta">2016–2020 · Activation & monetization</div>
+          </li>
+          <li>
+            <div class="role">Attachments.me - CEO</div>
+            <div class="meta">2011-2014 · Venture-backed startup focused on email attachments and document workflows</div>
+          </li>
+        </ul>
+        <p>Focus: Product‑led growth, developer experience, usage‑based pricing, and AI‑native workflows.</p>
+      </section>
+
+      <section id="about" aria-labelledby="about-h">
+        <h2 id="about-h">About</h2>
+        <p>Canadian software developer turned bay area entrepreneur turned growth product guy turned vibe coder.</p>
+      </section>
+
+      <section id="links" aria-labelledby="links-h">
+        <h2 id="links-h">Links</h2>
+        <p>
+          <a href="https://twitter.com/jesse_miller" rel="me" target="_blank">Twitter/X</a> ·
+          <a href="https://www.linkedin.com/in/jessejmiller" rel="me" target="_blank">LinkedIn</a>
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="y"></span> Jesse Miller
+    </footer>
+  </div>
+
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
 </body>
 </html>
