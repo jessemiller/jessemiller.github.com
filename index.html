@@ -28,9 +28,31 @@
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }
 
-    .wrap{ max-width: var(--measure); margin: 0 auto; padding: calc(var(--space)*2) 20px 96px; }
+    /* Subtle animated backdrop */
+    #bg{
+      position: fixed; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      opacity: .7;
+      mix-blend-mode: screen;
+    }
 
-    header{ position:sticky; top:0; padding: var(--space) 0; background: var(--bg); }
+    .wrap{ position: relative; z-index: 1; max-width: var(--measure); margin: 0 auto; padding: calc(var(--space)*2) 20px 96px; }
+
+    header{
+      position: static;
+      padding: 10px 0 12px;
+      background: transparent;
+    }
+    .brand{
+      display: inline-block;
+      font-weight:700;
+      letter-spacing:.14em;
+      font-size: 15px;
+      text-transform: uppercase;
+      color: var(--text);
+      text-shadow: 0 6px 24px rgba(120,120,255,0.22);
+    }
     .brand{ font-weight:600; letter-spacing:.2px }
     nav{ margin-top: 6px; }
     nav a{ color: var(--muted); margin-right: 16px; text-decoration: none }
@@ -65,6 +87,7 @@
   </style>
 </head>
 <body>
+  <canvas id="bg" aria-hidden="true"></canvas>
   <a href="#main" class="skip">Skip to content</a>
   <div class="wrap">
     <header>
@@ -74,14 +97,18 @@
     <main id="main">
       <div class="eyebrow">Product & Growth Executive</div>
       <h1>I build products people love.</h1>
-      <p class="lead">Currently building at Kong (Konnect & Insomnia); earlier Postman and Dropbox.</p>
+      <p class="lead">Currently building at CrewAI; earlier Kong, Postman, and Dropbox.</p>
 
       <section id="work" aria-labelledby="work-h">
         <h2 id="work-h">Selected roles</h2>
         <ul class="timeline">
           <li>
+            <div class="role">CrewAI — VP, Product</div>
+            <div class="meta">2025–Current · Product for AI agent platform</div>
+          </li>
+          <li>
             <div class="role">Kong — VP, Product Growth</div>
-            <div class="meta">2023–Current · PLG for Konnect & Insomnia</div>
+            <div class="meta">2023–2025 · Product‑led growth</div>
           </li>
           <li>
             <div class="role">Postman — Head of Growth</div>
@@ -118,6 +145,132 @@
     </footer>
   </div>
 
-  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear()
+
+    const canvas = document.getElementById('bg')
+    const ctx = canvas.getContext('2d')
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()
+    const isLight = bg.startsWith('#')
+      ? parseInt(bg.slice(1), 16) > 0xffffff / 2
+      : false
+
+    const palette = isLight
+      ? {
+          glow0: 'rgba(40,50,80,0.18)',
+          glow1: 'rgba(60,70,110,0.08)',
+          dot: 'rgba(60,70,120,0.14)',
+          line: 'rgba(50,60,100,0.12)'
+        }
+      : {
+          glow0: 'rgba(140,140,255,0.22)',
+          glow1: 'rgba(120,120,200,0.10)',
+          dot: 'rgba(200,200,255,0.14)',
+          line: 'rgba(160,160,255,0.12)'
+        }
+
+    let w = 0, h = 0, dpr = 1
+    const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 }
+    const dots = []
+    const DOTS = 160
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2)
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = Math.floor(w * dpr)
+      canvas.height = Math.floor(h * dpr)
+      canvas.style.width = w + 'px'
+      canvas.style.height = h + 'px'
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+
+    function seed(){
+      dots.length = 0
+      for (let i = 0; i < DOTS; i++){
+        dots.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: 1.2 + Math.random() * 2.6,
+          s: 0.35 + Math.random() * 0.85,
+          p: Math.random() * Math.PI * 2
+        })
+      }
+    }
+
+    function onMove(e){
+      const x = e.clientX / w
+      const y = e.clientY / h
+      mouse.tx = isFinite(x) ? x : 0.5
+      mouse.ty = isFinite(y) ? y : 0.5
+    }
+
+    function draw(t){
+      ctx.clearRect(0, 0, w, h)
+
+      mouse.x += (mouse.tx - mouse.x) * 0.04
+      mouse.y += (mouse.ty - mouse.y) * 0.04
+
+      const cx = w * (0.25 + mouse.x * 0.5) + Math.sin(t * 0.00015) * 40
+      const cy = h * (0.25 + mouse.y * 0.5) + Math.cos(t * 0.00012) * 32
+
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.65)
+      grad.addColorStop(0, palette.glow0)
+      grad.addColorStop(0.45, palette.glow1)
+      grad.addColorStop(1, 'rgba(0,0,0,0)')
+      ctx.fillStyle = grad
+      ctx.fillRect(0, 0, w, h)
+
+      ctx.globalCompositeOperation = 'lighter'
+      ctx.strokeStyle = palette.line
+      ctx.lineWidth = 1
+
+      for (let i = 0; i < dots.length; i++){
+        const d = dots[i]
+        const wave = Math.sin(t * 0.00035 + d.p + i * 0.2) * 12
+        const wave2 = Math.cos(t * 0.00028 + d.p + i * 0.15) * 10
+        const px = d.x + wave + (mouse.x - 0.5) * 30
+        const py = d.y + wave2 + (mouse.y - 0.5) * 30
+        ctx.beginPath()
+        ctx.arc(px, py, d.r, 0, Math.PI * 2)
+        ctx.fillStyle = palette.dot
+        ctx.fill()
+
+        if (i % 6 === 0){
+          ctx.beginPath()
+          ctx.moveTo(px, py)
+          ctx.lineTo(px + 26 * (mouse.x - 0.5), py + 26 * (mouse.y - 0.5))
+          ctx.stroke()
+        }
+      }
+
+      ctx.globalCompositeOperation = 'source-over'
+    }
+
+    resize()
+    seed()
+    window.addEventListener('resize', () => {
+      resize()
+      seed()
+      if (prefersReduced) draw(0)
+    })
+    window.addEventListener('mousemove', (e) => {
+      onMove(e)
+      if (prefersReduced) draw(0)
+    }, { passive: true })
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) onMove(e.touches[0])
+      if (prefersReduced) draw(0)
+    }, { passive: true })
+
+    function tick(t){
+      draw(t)
+      requestAnimationFrame(tick)
+    }
+
+    if (!prefersReduced) requestAnimationFrame(tick)
+    else draw(0)
+  </script>
 </body>
 </html>
