@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jesse Miller — Product & Growth</title>
-  <meta name="description" content="Product & growth leader building simple, lovable developer products." />
+  <meta name="description" content="Product & growth leader building products that have an impact." />
   <meta name="theme-color" content="#0a0a0a" />
   <style>
-    /* Pure type-driven layout — no borders, no shadows, no gradients */
+    /* A restrained, type-driven layout. */
     :root{
       --bg:#0a0a0a; /* near-black */
       --text:#e7e7ea; /* off-white */
@@ -28,14 +28,7 @@
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }
 
-    /* Subtle animated backdrop */
-    #bg{
-      position: fixed; inset: 0; z-index: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-    }
-
-    .wrap{ position: relative; z-index: 1; max-width: var(--measure); margin: 0 auto; padding: calc(var(--space)*2) 20px 96px; }
+    .wrap{ position: relative; z-index: 1; max-width: var(--measure); margin: 0 auto; padding: clamp(32px, 6vw, 64px) 24px 96px; }
 
     header{
       position: static;
@@ -49,19 +42,20 @@
       font-size: 15px;
       text-transform: uppercase;
       color: var(--text);
-      text-shadow: 0 6px 24px rgba(120,120,255,0.22);
     }
     .brand{ font-weight:600; letter-spacing:.2px }
     nav{ margin-top: 6px; }
     nav a{ color: var(--muted); margin-right: 16px; text-decoration: none }
     nav a:hover{ color: var(--text); text-decoration: underline; text-underline-offset: 2px }
 
-    /* Type scale */
-    h1{ font-size: clamp(34px, 6vw, 56px); line-height:1.05; letter-spacing: -0.02em; margin: 24px 0 8px }
-    .eyebrow{ font-size: 12px; text-transform: uppercase; letter-spacing: .18em; color: var(--muted) }
-    p.lead{ font-size: clamp(18px, 2.4vw, 21px); color: var(--muted); margin: 0 0 calc(var(--space)*1.2) }
+    main{ padding-top: clamp(40px, 7vw, 72px) }
 
-    h2{ font-size: clamp(22px, 3vw, 28px); letter-spacing:-.01em; margin: calc(var(--space)*2) 0 var(--space) }
+    /* Type scale */
+    h1{ font-size: clamp(34px, 6vw, 56px); line-height:1.08; letter-spacing: -0.035em; margin: 20px 0 24px; text-wrap: balance }
+    .eyebrow{ font-size: 12px; text-transform: uppercase; letter-spacing: .18em; color: var(--muted) }
+    p.lead{ font-size: clamp(18px, 2.4vw, 21px); color: var(--muted); line-height: 1.6; margin: 0; max-width: 52ch }
+
+    h2{ font-size: 12px; font-weight: 600; line-height: 1.5; text-transform: uppercase; letter-spacing: .16em; color: var(--muted); margin: 0 0 28px }
     p{ margin: 0 0 var(--space) }
 
     /* Simple inline links */
@@ -69,15 +63,44 @@
     a:hover{ text-decoration: underline; text-underline-offset: 2px }
 
     /* Layout sections (pure whitespace) */
-    section{ margin-top: calc(var(--space)*2) }
+    section{ margin-top: clamp(56px, 8vw, 80px) }
 
-    /* Timeline as clean list */
-    .timeline{ list-style: none; padding: 0; margin: var(--space) 0 }
-    .timeline li{ margin: 0 0 10px }
-    .timeline .role{ font-weight: 600 }
-    .timeline .meta{ color: var(--muted); font-size: 14px }
+    /* Career history uses whitespace and a quiet date column. */
+    .timeline{ list-style: none; padding: 0; margin: 0 0 32px }
+    .timeline li{ display: grid; gap: 6px; margin-bottom: 28px }
+    .timeline li:last-child{ margin-bottom: 0 }
+    .timeline .date{ color: var(--muted); font-size: 13px; line-height: 1.7; font-variant-numeric: tabular-nums }
+    .timeline .role{ font-size: 18px; font-weight: 600; line-height: 1.45; letter-spacing: -.015em }
+    .timeline .meta{ color: var(--muted); font-size: 14px; line-height: 1.65; margin-top: 5px }
+    @media (min-width: 640px){
+      .timeline li{ grid-template-columns: 112px minmax(0, 1fr); column-gap: 28px; margin-bottom: 32px }
+      .timeline .date{ padding-top: 3px }
+    }
 
-    footer{ margin-top: calc(var(--space)*3); color: var(--muted); font-size: 14px }
+    footer{ margin-top: 80px; color: var(--muted); font-size: 13px }
+
+    /* A small, interactive sketch of a product built for agent customers. */
+    .agent-study{ margin: 48px 0 0; }
+    .agent-study figcaption{ font-size: 13px; color: var(--muted); }
+    .agent-study figcaption strong{ display: block; font-size: 16px; font-weight: 500; color: var(--text); margin-top: 6px; }
+    .agent-map{ display: block; width: 100%; max-width: 520px; height: auto; margin: 24px 0 12px; overflow: visible; }
+    .agent-map text{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: var(--muted); }
+    .agent-map .map-title{ fill: var(--text); font-size: 14px; }
+    .map-outline{ fill: var(--bg); stroke: var(--muted); stroke-opacity: .35; }
+    .agent-route{ fill: none; stroke: var(--muted); stroke-opacity: .22; }
+    .agent-port{ fill: var(--bg); stroke: var(--muted); stroke-opacity: .5; }
+    .agent-route.active{ stroke: var(--link); stroke-opacity: .9; }
+    .agent-port.active{ fill: var(--link); stroke: var(--link); }
+    .agent-signal{ fill: none; stroke: var(--link); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 3 97; opacity: 0; }
+    .agent-signal.running{ animation: exchange 1.6s ease-in-out; }
+    @keyframes exchange{ 0%{ stroke-dashoffset: 3; opacity: 0; } 10%{ opacity: 1; } 48%{ stroke-dashoffset: -97; opacity: 1; } 52%{ stroke-dashoffset: -97; opacity: 1; } 90%{ opacity: 1; } 100%{ stroke-dashoffset: 3; opacity: 0; } }
+    .agent-controls{ display: flex; flex-wrap: wrap; gap: 8px 20px; }
+    .agent-controls button{ appearance: none; background: none; border: 0; padding: 10px 0; color: var(--muted); font: inherit; font-size: 13px; cursor: pointer; }
+    .agent-controls button[aria-pressed="true"]{ color: var(--link); text-decoration: underline; text-underline-offset: 6px; }
+    .agent-controls button:hover{ color: var(--text); }
+    .agent-controls button:focus-visible{ outline: 2px solid var(--link); outline-offset: 4px; border-radius: 2px; }
+    .agent-note{ color: var(--muted); font-size: 13px; line-height: 1.6; max-width: 52ch; margin: 10px 0 0; min-height: 3.2em; }
+    @media (prefers-reduced-motion: reduce){ .agent-signal.running{ animation: none; } }
 
     /* Skip link for a11y */
     .skip{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden }
@@ -85,7 +108,6 @@
   </style>
 </head>
 <body>
-  <canvas id="bg" aria-hidden="true"></canvas>
   <a href="#main" class="skip">Skip to content</a>
   <div class="wrap">
     <header>
@@ -94,39 +116,88 @@
 
     <main id="main">
       <div class="eyebrow">Product & Growth Executive</div>
-      <h1>I build products people love.</h1>
-      <p class="lead">Currently building at CrewAI; earlier Kong, Postman, and Dropbox.</p>
+      <h1>Making technical products simple to use.</h1>
+      <p class="lead">I'm a product leader with a founder mentality and engineering roots. I've led product and growth teams at CrewAI, Kong, Postman, and Dropbox.</p>
+
+      <figure class="agent-study" aria-labelledby="agent-caption">
+        <figcaption id="agent-caption">Currently exploring<strong>What if your next customer is an agent?</strong></figcaption>
+        <svg class="agent-map" viewBox="0 0 480 188" role="img" aria-labelledby="map-title map-description">
+          <title id="map-title">A product designed for agents to use</title>
+          <desc id="map-description">Three agents connect to a shared product through interfaces to discover capabilities, take action, and verify outcomes. Select a step below to explore.</desc>
+          <text x="0" y="16">AGENTS</text>
+          <rect class="map-outline" x="290" y="34" width="188" height="146" rx="8" />
+          <text class="map-title" x="310" y="61">Product</text>
+          <path class="agent-route active" data-route="0" d="M 36 60 H 160 Q 180 60 180 80 V 90 H 290" />
+          <path class="agent-route" data-route="1" d="M 36 112 H 290" />
+          <path class="agent-route" data-route="2" d="M 36 164 H 160 Q 180 164 180 144 V 134 H 290" />
+          <g class="map-outline">
+            <rect x="4" y="44" width="32" height="32" rx="9" />
+            <circle cx="20" cy="112" r="16" />
+            <path d="M20 146 L38 164 L20 182 L2 164 Z" />
+          </g>
+          <g fill="var(--text)">
+            <circle cx="16" cy="60" r="2" /><circle cx="24" cy="60" r="2" />
+            <circle cx="16" cy="112" r="2" /><circle cx="24" cy="112" r="2" />
+            <circle cx="16" cy="164" r="2" /><circle cx="24" cy="164" r="2" />
+          </g>
+          <circle class="agent-port active" data-port="0" cx="290" cy="90" r="4" />
+          <circle class="agent-port" data-port="1" cx="290" cy="112" r="4" />
+          <circle class="agent-port" data-port="2" cx="290" cy="134" r="4" />
+          <text x="310" y="94">Discover</text><text x="310" y="116">Act</text><text x="310" y="138">Verify</text>
+          <path class="agent-signal" pathLength="100" d="M 36 60 H 160 Q 180 60 180 80 V 90 H 290" />
+        </svg>
+        <div class="agent-controls" role="group" aria-label="Explore how agents use a product">
+          <button type="button" data-step="0" aria-pressed="true">01 Discover</button>
+          <button type="button" data-step="1" aria-pressed="false">02 Act</button>
+          <button type="button" data-step="2" aria-pressed="false">03 Verify</button>
+        </div>
+        <p class="agent-note" aria-live="polite">Make capabilities legible. An agent can understand what the product does and how to use it.</p>
+      </figure>
 
       <section id="work" aria-labelledby="work-h">
         <h2 id="work-h">Selected roles</h2>
         <ul class="timeline">
           <li>
-            <div class="role">CrewAI — VP, Product</div>
-            <div class="meta">2025–Current · Product for AI agent platform</div>
+            <div class="date">2025–Current</div>
+            <div>
+              <div class="role">CrewAI — VP, Product</div>
+              <div class="meta">Product for AI agent platform</div>
+            </div>
           </li>
           <li>
-            <div class="role">Kong — VP, Product Growth</div>
-            <div class="meta">2023–2025 · Product‑led growth</div>
+            <div class="date">2023–2025</div>
+            <div>
+              <div class="role">Kong — VP, Product Growth</div>
+              <div class="meta">Product‑led growth</div>
+            </div>
           </li>
           <li>
-            <div class="role">Postman — Head of Growth</div>
-            <div class="meta">2020–2023 · Self‑serve motion & activation</div>
+            <div class="date">2020–2023</div>
+            <div>
+              <div class="role">Postman — Head of Growth</div>
+              <div class="meta">Self‑serve motion & activation</div>
+            </div>
           </li>
           <li>
-            <div class="role">Dropbox — Director of Product, Head of Growth</div>
-            <div class="meta">2016–2020 · Activation & monetization</div>
+            <div class="date">2016–2020</div>
+            <div>
+              <div class="role">Dropbox — Director of Product, Head of Growth</div>
+              <div class="meta">Activation & monetization</div>
+            </div>
           </li>
           <li>
-            <div class="role">Attachments.me - CEO</div>
-            <div class="meta">2011-2014 · Venture-backed startup focused on email attachments and document workflows</div>
+            <div class="date">2011–2014</div>
+            <div>
+              <div class="role">Attachments.me — CEO</div>
+              <div class="meta">Venture-backed startup focused on email attachments and document workflows</div>
+            </div>
           </li>
         </ul>
-        <p>Focus: Product‑led growth, developer experience, usage‑based pricing, and AI‑native workflows.</p>
       </section>
 
       <section id="about" aria-labelledby="about-h">
         <h2 id="about-h">About</h2>
-        <p>Canadian software developer turned bay area entrepreneur turned growth product guy turned vibe coder.</p>
+        <p>Canadian software developer turned Bay Area entrepreneur turned growth product guy turned builder.</p>
       </section>
 
       <section id="links" aria-labelledby="links-h">
@@ -146,147 +217,25 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear()
 
-    const canvas = document.getElementById('bg')
-    const ctx = canvas.getContext('2d')
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const prefersLight = window.matchMedia('(prefers-color-scheme: light)')
-    let palette = {
-      glow0: 'rgba(140,140,255,0.22)',
-      glow1: 'rgba(120,120,200,0.10)',
-      dot: 'rgba(200,200,255,0.14)',
-      line: 'rgba(160,160,255,0.12)'
-    }
-
-    function updatePalette(){
-      const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()
-      const isLight = bg.startsWith('#')
-        ? parseInt(bg.slice(1), 16) > 0xffffff / 2
-        : prefersLight.matches
-
-      palette = isLight
-        ? {
-            glow0: 'rgba(20,30,60,0.22)',
-            glow1: 'rgba(40,50,90,0.12)',
-            dot: 'rgba(30,40,80,0.20)',
-            line: 'rgba(30,40,80,0.16)'
-          }
-        : {
-            glow0: 'rgba(140,140,255,0.22)',
-            glow1: 'rgba(120,120,200,0.10)',
-            dot: 'rgba(200,200,255,0.14)',
-            line: 'rgba(160,160,255,0.12)'
-          }
-
-      canvas.style.opacity = isLight ? '0.5' : '0.7'
-      canvas.style.mixBlendMode = isLight ? 'multiply' : 'screen'
-    }
-
-    let w = 0, h = 0, dpr = 1
-    const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 }
-    const dots = []
-    const DOTS = 160
-
-    function resize(){
-      dpr = Math.min(window.devicePixelRatio || 1, 2)
-      w = window.innerWidth
-      h = window.innerHeight
-      canvas.width = Math.floor(w * dpr)
-      canvas.height = Math.floor(h * dpr)
-      canvas.style.width = w + 'px'
-      canvas.style.height = h + 'px'
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-    }
-
-    function seed(){
-      dots.length = 0
-      for (let i = 0; i < DOTS; i++){
-        dots.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          r: 1.2 + Math.random() * 2.6,
-          s: 0.35 + Math.random() * 0.85,
-          p: Math.random() * Math.PI * 2
-        })
-      }
-    }
-
-    function onMove(e){
-      const x = e.clientX / w
-      const y = e.clientY / h
-      mouse.tx = isFinite(x) ? x : 0.5
-      mouse.ty = isFinite(y) ? y : 0.5
-    }
-
-    function draw(t){
-      ctx.clearRect(0, 0, w, h)
-
-      mouse.x += (mouse.tx - mouse.x) * 0.04
-      mouse.y += (mouse.ty - mouse.y) * 0.04
-
-      const cx = w * (0.25 + mouse.x * 0.5) + Math.sin(t * 0.00015) * 40
-      const cy = h * (0.25 + mouse.y * 0.5) + Math.cos(t * 0.00012) * 32
-
-      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.65)
-      grad.addColorStop(0, palette.glow0)
-      grad.addColorStop(0.45, palette.glow1)
-      grad.addColorStop(1, 'rgba(0,0,0,0)')
-      ctx.fillStyle = grad
-      ctx.fillRect(0, 0, w, h)
-
-      ctx.globalCompositeOperation = 'lighter'
-      ctx.strokeStyle = palette.line
-      ctx.lineWidth = 1
-
-      for (let i = 0; i < dots.length; i++){
-        const d = dots[i]
-        const wave = Math.sin(t * 0.00035 + d.p + i * 0.2) * 12
-        const wave2 = Math.cos(t * 0.00028 + d.p + i * 0.15) * 10
-        const px = d.x + wave + (mouse.x - 0.5) * 30
-        const py = d.y + wave2 + (mouse.y - 0.5) * 30
-        ctx.beginPath()
-        ctx.arc(px, py, d.r, 0, Math.PI * 2)
-        ctx.fillStyle = palette.dot
-        ctx.fill()
-
-        if (i % 6 === 0){
-          ctx.beginPath()
-          ctx.moveTo(px, py)
-          ctx.lineTo(px + 26 * (mouse.x - 0.5), py + 26 * (mouse.y - 0.5))
-          ctx.stroke()
-        }
-      }
-
-      ctx.globalCompositeOperation = 'source-over'
-    }
-
-    resize()
-    seed()
-    updatePalette()
-    window.addEventListener('resize', () => {
-      resize()
-      seed()
-      if (prefersReduced) draw(0)
+    const steps = [
+      'Make capabilities legible. An agent can understand what the product does and how to use it.',
+      'Make actions usable. An agent can take a clear intent and turn it into a useful result.',
+      'Make outcomes explicit. An agent can check what happened and decide what to do next.'
+    ]
+    const signal = document.querySelector('.agent-signal')
+    document.querySelectorAll('[data-step]').forEach(button => {
+      button.addEventListener('click', () => {
+        const step = button.dataset.step
+        document.querySelectorAll('[data-step]').forEach(item => item.setAttribute('aria-pressed', String(item === button)))
+        document.querySelectorAll('[data-route], [data-port]').forEach(item => item.classList.toggle('active', (item.dataset.route ?? item.dataset.port) === step))
+        document.querySelector('.agent-note').textContent = steps[Number(step)]
+        signal.classList.remove('running')
+        signal.setAttribute('d', document.querySelector(`[data-route="${step}"]`).getAttribute('d'))
+        // Restart the brief request-and-response animation on intentional input.
+        void signal.getBoundingClientRect()
+        signal.classList.add('running')
+      })
     })
-    prefersLight.addEventListener('change', () => {
-      updatePalette()
-      if (prefersReduced) draw(0)
-    })
-    window.addEventListener('mousemove', (e) => {
-      onMove(e)
-      if (prefersReduced) draw(0)
-    }, { passive: true })
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches && e.touches[0]) onMove(e.touches[0])
-      if (prefersReduced) draw(0)
-    }, { passive: true })
-
-    function tick(t){
-      draw(t)
-      requestAnimationFrame(tick)
-    }
-
-    if (!prefersReduced) requestAnimationFrame(tick)
-    else draw(0)
   </script>
 </body>
 </html>
